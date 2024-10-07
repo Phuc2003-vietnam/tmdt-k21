@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import {} from "dotenv/config";
-import device from '#~/model/device.js'
 async function connect() {
     try {
         mongoose.set('strictQuery', false);
@@ -12,25 +11,5 @@ async function connect() {
     }
 }
 
-async function reInitSchedule() {
-    try {
-        await device
-			.findOneAndUpdate(
-				{type:'fan'},
-				{
-					$set: {schedule:[]},
-				},
-			)
-        await device
-			.findOneAndUpdate(
-				{type:'door'},
-				{
-					$set: {schedule:[]},
-				},
-			)
-    }
-    catch(error){
-        console.log("connect failure");
-    }
-}
-export default {connect,reInitSchedule}
+
+export default {connect}
