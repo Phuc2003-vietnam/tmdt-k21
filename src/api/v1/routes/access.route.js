@@ -9,4 +9,5 @@ router.post("/shop/signup", asyncHandler(accessController.signUp));
 router.post("/shop/logout", asyncHandler(accessController.logout));
 router.post("/shop/handlerRefreshToken", asyncHandler(accessController.handlerRefreshToken));
 
+router.post("/admin/signup", asyncHandler(accessController.createAdmin));
 export default router

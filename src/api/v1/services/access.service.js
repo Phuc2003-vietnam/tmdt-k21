@@ -1,7 +1,7 @@
 
 //import here
-
-
+import Admin from "#~/model/admin.schema.js";
+import bcrypt from "bcrypt";
 class AccessService {
   /**
    * Used for generate new token pair AT and RT
@@ -121,6 +121,30 @@ class AccessService {
         tokens,
       };
     }
+  };
+  static createAdmin = async ({ name, email, password }) => {
+    const admin = await Admin.findOne({ email }).lean();
+    if (admin) {
+      throw new BadRequestError("Admin already registered !!!");
+    }
+    const hashedPass = await bcrypt.hash(password, 10);
+    const newAdmin = await Admin.create({
+      name,
+      email,
+      password: hashedPass,
+    });
+    return newAdmin;
+  };
+  static adminLogin = async ({ email, password }) => {
+    const admin = await Admin.findOne({ email }).lean();
+    if (!admin) {
+      throw new BadRequestError("Admin not registered !!!");
+    }
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
+      throw new AuthFailureError("Authentication error");
+    }
+    return admin;
   };
 }
 export default AccessService;

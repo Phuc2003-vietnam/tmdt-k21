@@ -39,5 +39,6 @@ module.exports = {
     'prefer-const': 'error',
     quotes: [2, 'single', { avoidEscape: true }],
     strict: ['error', 'global'],
+    'end-of-line': 'auto',
   },
 };
