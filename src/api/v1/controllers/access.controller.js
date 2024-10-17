@@ -33,6 +33,12 @@ class AccessController {
         metadata: await AccessService.signup(req.body),
       }).send(res);
     };
+    createAdmin = async (req, res, next) => {
+      new CREATED({
+        message: "Registered OK",
+        metadata: await AccessService.createAdmin(req.body),
+      }).send(res);
+    };
   }
   
 
