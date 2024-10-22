@@ -1,0 +1,31 @@
+name: Node.js CI
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  qa:
+    name: Run QA
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@bv4
+
+      - name: Select NodeJS version
+        uses: actions/setup-node@v4 # v4
+        with:
+          always-auth: true
+          cache: 'npm'
+          # renovate: datasource=docker depName=node versioning=node
+          node-version: '20.10.0'
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Lint
+        run: npm run lint:all
+
+      - name: Execute Unit Tests
+        run: npm run test
