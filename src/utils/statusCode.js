@@ -1,9 +1,4 @@
-module.exports = {
-    /**
-     * Official Documentation @ https://tools.ietf.org/html/rfc7231#section-6.2.1
-     *
-     * This interim response indicates that everything so far is OK and that the client should continue with the request or ignore it if it is already finished.
-     */
+const codes= {
     CONTINUE: 100,
     /**
      * Official Documentation @ https://tools.ietf.org/html/rfc7231#section-6.2.2
@@ -342,3 +337,4 @@ module.exports = {
      */
     NETWORK_AUTHENTICATION_REQUIRED: 511
 }
+export default codes

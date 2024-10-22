@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
+const DOCUMENT_NAME = "Payment";
+const COLLECTION_NAME = "Payments"
 
-const paymentSchema = new mongoose.Schema({
+const paymentSchema = new mongoose.Schema(
+  {
   paymentDate: { type: Date, default: Date.now },
   paymentMethod: {
     type: String,
@@ -13,7 +16,11 @@ const paymentSchema = new mongoose.Schema({
     ref: "Order",
     required: true,
   },
-});
+},
+{
+  timestamps: true,
+  collection: COLLECTION_NAME,
+}
+);
 
-const Payment = mongoose.model("Payment", paymentSchema);
-export default  Payment;
+export default mongoose.model(DOCUMENT_NAME, paymentSchema);

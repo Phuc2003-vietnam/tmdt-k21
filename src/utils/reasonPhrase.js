@@ -1,4 +1,4 @@
-module.exports = {
+const phrases ={
     /**
      * Official Documentation @ https://tools.ietf.org/html/rfc7231#section-6.3.3
      *
@@ -342,3 +342,4 @@ module.exports = {
      */
     MISDIRECTED_REQUEST: "Misdirected Request"
 }
+export default phrases

@@ -1,4 +1,4 @@
-const { ReasonPhrases, StatusCodes } = require("../utils/httpStatusCode");
+import { ReasonPhrases, StatusCodes } from "../utils/httpStatusCode.js";
 
 class ErrorResponse extends Error {
   constructor(message, status) {

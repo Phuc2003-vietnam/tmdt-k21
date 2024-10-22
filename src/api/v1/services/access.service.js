@@ -1,7 +1,10 @@
-
+import {createTokenPair, createPublicPrivateKeys} from "#~/utils/token.js"
+import {BadRequestError} from '#~/core/error.response.js'
+import bcrypt from 'bcrypt'
 //import here
-
-
+import KeyTokenService from "./keyToken.service.js"
+import userModel from "#~/model/user.schema.js"
+import {getPickedData} from '#~/utils/modifyObject.js'
 class AccessService {
   /**
    * Used for generate new token pair AT and RT
@@ -43,24 +46,23 @@ class AccessService {
 
   static logout = async ({ keyStore }) => {
     const delKey = await KeyTokenService.deleteKeyById(keyStore._id);
-    console.log(delKey);
     return delKey;
   };
 
   static login = async ({ email, password, refreshToken = null }) => {
-    const foundShop = await shopModel.findOne({ email }).lean();
-    if (!foundShop) {
-      throw new BadRequestError("Shop not registered");
+    const foundUser = await userModel.findOne({ email }).lean();
+    if (!foundUser) {
+      throw new BadRequestError("User not registered");
     }
 
-    const isMatch = await bcrypt.compare(password, foundShop.password);
+    const isMatch = await bcrypt.compare(password, foundUser.password);
     if (!isMatch) {
       throw new AuthFailureError("Authentication error");
     }
 
     const { privateKey, publicKey } = createPublicPrivateKeys();
 
-    const { _id: userId } = foundShop;
+    const { _id: userId } = foundUser;
 
     const tokens = await createTokenPair(
       { userId, email },
@@ -77,50 +79,60 @@ class AccessService {
 
     return {
       shop: getPickedData({
-        object: foundShop,
+        object: foundUser,
         fields: ["_id", "name", "email"],
       }),
       tokens,
     };
   };
 
-  static signup = async ({ name, email, password }) => {
-    const shop = await shopModel.findOne({ email }).lean();
-    if (shop) {
-      throw new BadRequestError("Shop already registered !!!");
+  static signup = async ({  email, password }) => {
+    const user = await userModel.findOne({ email }).lean();
+    if (user) {
+      throw new BadRequestError("User already registered !!!");
     }
     const hashedPass = await bcrypt.hash(password, 10);
-    const newShop = await shopModel.create({
-      name,
+    const newUser = await userModel.create({
       email,
       password: hashedPass,
-      roles: [RoleShop.SHOP],
     });
     //privateKey -> sign token  , publickey ->verify token
-    if (newShop) {
+    if (newUser) {
       const { privateKey, publicKey } = createPublicPrivateKeys();
 
       const tokens = await createTokenPair(
-        { userId: newShop._id, email },
+        { userId: newUser._id, email },
         publicKey,
         privateKey
       );
 
       await KeyTokenService.createKeyToken({
-        userId: newShop._id,
+        userId: newUser._id,
         publicKey,
         privateKey,
         refreshToken: tokens.refreshToken,
       });
 
       return {
-        shop: getPickedData({
-          object: newShop,
+        user: getPickedData({
+          object: newUser,
           fields: ["_id", "name", "email"],
         }),
         tokens,
       };
     }
   };
+
+  //This function is only used for testing
+  static delete = async ({  email }) => {
+    const user = await userModel.findOne({ email }).lean();
+    if (!user) {
+      throw new BadRequestError("User not found !!!");
+    }
+    await this.logout({keyStore:user._id})
+    await userModel.deleteOne({ email });
+
+  }
+
 }
 export default AccessService;

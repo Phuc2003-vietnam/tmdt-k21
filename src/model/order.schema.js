@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
+const DOCUMENT_NAME = "Key";
+const COLLECTION_NAME = "Keys"
 
-const orderSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema(
+  {
   orderDate: { type: Date, default: Date.now },
   totalAmount: { type: Number, required: true },
   customerID: {
@@ -12,8 +15,12 @@ const orderSchema = new mongoose.Schema({
     type: String,
     enum: ["Processing", "Shipped", "Delivered", "Cancelled"],
     required: true,
+  }
   },
-});
+  {
+    timestamps: true,
+    collection: COLLECTION_NAME,
+  }
+);
 
-const Order = mongoose.model("Order", orderSchema);
-export default  Order;
+export default mongoose.model(DOCUMENT_NAME, orderSchema);
