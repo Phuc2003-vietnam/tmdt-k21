@@ -1,16 +1,15 @@
-import mongoose from "mongoose";
-import {} from "dotenv/config";
+import {} from 'dotenv/config';
+import mongoose from 'mongoose';
 async function connect() {
-    try {
-        mongoose.set('strictQuery', false);
-        console.log(process.env.MONGO_DB);
-        await mongoose.connect(process.env.MONGO_DB);
-        console.log("connect successfuly");
-    }
-    catch(error){
-        console.log("connect failure");
-    }
+  try {
+    mongoose.set('strictQuery', false);
+    await mongoose.connect(process.env.MONGO_DB);
+    /* eslint-disable-next-line no-console */
+    console.log('mongoDB connect successfuly');
+  } catch (error) {
+    /* eslint-disable-next-line no-console */
+    console.log('connect failure');
+  }
 }
 
-
-export default {connect}
+export default { connect };

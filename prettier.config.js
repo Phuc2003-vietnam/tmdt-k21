@@ -1,6 +1,6 @@
 
 /** @type {require("prettier").Config} */
-module.exports = {
+const config=  {
   printWidth: 100,
   arrowParens: 'avoid',
   plugins: ['prettier-plugin-organize-imports'],
@@ -13,3 +13,5 @@ module.exports = {
     },
   ],
 };
+
+export default config
