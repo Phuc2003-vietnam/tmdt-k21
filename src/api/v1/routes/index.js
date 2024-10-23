@@ -1,6 +1,6 @@
-import express from "express";
+import express from 'express';
+import access_route from './access.route.js';
 const router = express.Router();
-import access_route from "./access.route.js"
-router.use("/api/v1",access_route );
+router.use('/api/v1', access_route);
 
-export default router
+export default router;

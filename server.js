@@ -1,6 +1,5 @@
-import express from 'express'
-import configExpressApp from './src/config/express.js'
-// import database from './src/config/mysql.js'
+import express from 'express';
+import configExpressApp from './src/config/express.js';
 
-const app = express()
-configExpressApp(app)
+const app = express();
+configExpressApp(app);
