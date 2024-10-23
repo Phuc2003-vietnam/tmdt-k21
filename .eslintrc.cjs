@@ -1,4 +1,4 @@
-'use strict';
+
 
 // @see https://en.wikipedia.org/wiki/Cyclomatic_complexity
 const MAX_CYCLOMATIC_COMPLEXITY = 10;
@@ -15,13 +15,6 @@ module.exports = {
   overrides: [
     {
       files: ['*.js', '*.cjs'],
-      extends: ['eslint:recommended'],
-      parserOptions: {
-        sourceType: 'commonjs',
-      },
-    },
-    {
-      files: ['*.mjs'],
       extends: ['eslint:recommended'],
       parserOptions: {
         sourceType: 'module',

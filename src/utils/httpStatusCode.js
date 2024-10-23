@@ -1,7 +1,4 @@
-import StatusCodes from "./statusCode.js"
-import ReasonPhrases from "./reasonPhrase.js"
+import ReasonPhrases from './reasonPhrase.js';
+import StatusCodes from './statusCode.js';
 
-export {
-    StatusCodes,
-    ReasonPhrases
-}
+export { ReasonPhrases, StatusCodes };

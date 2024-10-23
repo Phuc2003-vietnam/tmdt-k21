@@ -1,7 +1,7 @@
-import { Schema, mongoose } from "mongoose";
+import { Schema, mongoose } from 'mongoose';
 
-const DOCUMENT_NAME = "Key";
-const COLLECTION_NAME = "Keys";
+const DOCUMENT_NAME = 'Key';
+const COLLECTION_NAME = 'Keys';
 
 const keyTokenSchema = new mongoose.Schema(
   {
@@ -29,7 +29,7 @@ const keyTokenSchema = new mongoose.Schema(
   {
     timestamps: true,
     collection: COLLECTION_NAME,
-  }
+  },
 );
 
 export default mongoose.model(DOCUMENT_NAME, keyTokenSchema);
